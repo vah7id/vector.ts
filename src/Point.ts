@@ -39,4 +39,42 @@ export abstract class Point {
         this.y = y;
         return;
     }
+    getX(x: number) {
+        return x;
+    }
+    getY(y: number) {
+        return y;
+    }
+    toArray() {
+        return [this.x, this.y];
+    }
+    toObject() {
+        return {
+            x: this.x,
+            y: this.y
+        };
+    }
+    toString() {
+        return `(${this.x}, ${this.y})`;
+    }
+    invert() {
+        this.x = this.x * -1;
+        this.y = this.y * -1;
+    }
+    clone() {
+        return new this.point(this.x, this.y)
+    }
+    add(point: Point) {
+        this.x += point.x;
+        this.y += point.y;
+        return this;
+    }
+    addX(point: Point) {
+        this.x += point.x;
+        return this;
+    }
+    addY(point: Point) {
+        this.y = point.y;
+        return this;
+    }
 }
