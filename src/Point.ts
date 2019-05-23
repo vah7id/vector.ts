@@ -10,9 +10,7 @@
  * All rights reserved.
  */
 
-export interface VectorInterface<T> {
-    new (x: number, y: number): T
-}
+import { VectorInterface } from './interfaces';
 
 /**
  * @name Point
