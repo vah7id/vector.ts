@@ -1,5 +1,5 @@
 /*
- * Vector.ts - typescript lightweight geometry library
+ * Point.ts - typescript lightweight geometry library
  * https://github.com/vah7id/vector.ts
  *
  * Copyright (c) 2019 Vahid Taghizadeh

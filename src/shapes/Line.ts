@@ -1,7 +1,26 @@
-import Point from './Point';
+/*
+ * Line.ts - typescript lightweight geometry library
+ * https://github.com/vah7id/vector.ts
+ *
+ * Copyright (c) 2019 Vahid Taghizadeh
+ * http://vah7id.github.io
+ *
+ * Distributed under the MIT license. See LICENSE file for details.
+ *
+ * All rights reserved.
+ */
+
+import Point from './Vector';
 import { DistanceInterface } from '../Interfaces';
 
+/**
+ * @name Line
+ * @class The line class represents a line in the two dimensional space
+ *
+ */
+
 export class Line {
+
     protected point1: Point;
     protected point2: Point;
 
