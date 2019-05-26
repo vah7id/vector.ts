@@ -10,17 +10,17 @@
  * All rights reserved.
  */
 
-import { VectorInterface } from './Interfaces';
-import Utils from './Utils';
+import { VectorInterface } from '../Interfaces';
+import Utils from '../Utils';
 
 /**
- * @name Point
- * @class The Point object represents a point in the two dimensional space
+ * @name AbstractPoint
+ * @class The AbstractPoint object represents a point in the two dimensional space
  *
  */
 
-export abstract class Point {
-    constructor(protected point: VectorInterface<Point>) {}
+export abstract class AbstractPoint {
+    constructor(protected point: VectorInterface<AbstractPoint>) {}
 
     abstract set x(x: number)
     abstract get x(): number
@@ -40,11 +40,11 @@ export abstract class Point {
         this.y = y;
         return;
     }
-    getX(x: number) {
-        return x;
+    getX() {
+        return this.x;
     }
-    getY(y: number) {
-        return y;
+    getY() {
+        return this.y;
     }
     angle() {
         return this.horizontalAngle();
@@ -61,7 +61,7 @@ export abstract class Point {
     toObject() {
         return { x: this.x, y: this.y };
     }
-    toString() {
+    toString(this: AbstractPoint) {
         return `(${this.x}, ${this.y})`;
     }
     abs() {
@@ -84,51 +84,51 @@ export abstract class Point {
     clone() {
         return new this.point(this.x, this.y);
     }
-    add(point: Point) {
+    add(point: AbstractPoint) {
         this.x += point.x;
         this.y += point.y;
         return this;
     }
-    addX(point: Point) {
+    addX(point: AbstractPoint) {
         this.x += point.x;
         return this;
     }
-    addY(point: Point) {
+    addY(point: AbstractPoint) {
         this.y = point.y;
         return this;
     }
-    substract(point: Point) {
+    substract(point: AbstractPoint) {
         this.x -= point.x;
         this.y -= point.y;
         return this;
     }
-    substractX(point: Point) {
+    substractX(point: AbstractPoint) {
         this.x -= point.x;
         return this;
     }
-    substractY(point: Point) {
+    substractY(point: AbstractPoint) {
         this.y -= point.y;
         return this;
     }
-    equals(point: Point) {
+    equals(point: AbstractPoint) {
         return point.x === this.x && point.y === this.y;
     }
-    equalsX(point: Point) {
+    equalsX(point: AbstractPoint) {
         return point.x === this.x;
     }
-    equalsY(point: Point) {
+    equalsY(point: AbstractPoint) {
         return point.y === this.y;
     }
-    multiply(point: Point) {
+    multiply(point: AbstractPoint) {
         this.x *= point.x;
         this.y *= point.y;
         return this;
     }
-    multiplyX(point: Point) {
+    multiplyX(point: AbstractPoint) {
         this.x *= point.x;
         return this;
     }
-    multiplyY(point: Point) {
+    multiplyY(point: AbstractPoint) {
         this.y *= point.y;
         return this;
     }
@@ -137,16 +137,16 @@ export abstract class Point {
         this.y *= n;
         return this;
     }
-    devide(point: Point) {
+    devide(point: AbstractPoint) {
         this.x /= point.x;
         this.y /= point.y;
         return this;
     }
-    devideX(point: Point) {
+    devideX(point: AbstractPoint) {
         this.x /= point.x;
         return this;
     }
-    devideY(point: Point) {
+    devideY(point: AbstractPoint) {
         this.y /= point.y;
         return this;
     }
@@ -175,30 +175,30 @@ export abstract class Point {
     normalize() {
         return this.divideByScalar(this.magnitude());
     }
-    dot(point: Point) {
+    dot(point: AbstractPoint) {
         return point.x * this.x + point.y * this.y;
     }
-    cross(point: Point) {
+    cross(point: AbstractPoint) {
         return this.x * point.y - this.y * point.x;
     }
-    distance(point: Point) {
+    distance(point: AbstractPoint) {
         var x = this.x - point.x;
         var y = this.y - point.y;
         return Math.sqrt(x * x + y * y);
     }
-    distanceX(point: Point) {
+    distanceX(point: AbstractPoint) {
         return this.x - point.x;
     }
-    distanceY(point: Point) {
+    distanceY(point: AbstractPoint) {
         return this.y - point.y;
     }
-    distanceSqr(point: Point) {
+    distanceSqr(point: AbstractPoint) {
         var dx = this.distanceX(point), dy = this.distanceY(point);
         return dx * dx + dy * dy;
     }
-    horizontalAngle = function () {
+    horizontalAngle() {
         return Math.atan2(this.y, this.x);
-    };
+    }
     horizontalAngleDeg() {
         return Utils.radian2degrees(this.horizontalAngle());
     }
@@ -227,21 +227,48 @@ export abstract class Point {
         this.y = ((0.5 + this.y * p) << 0) / p;
         return this;
     }
-    randomizeX(topLeft: Point, bottomRight: Point) {
+    randomizeX(topLeft: AbstractPoint, bottomRight: AbstractPoint) {
         var min = Math.min(topLeft.x, bottomRight.x);
         var max = Math.max(topLeft.x, bottomRight.x);
         this.x = Utils.random(min, max);
         return this;
     }
-    randomizeY(topLeft: Point, bottomRight: Point) {
+    randomizeY(topLeft: AbstractPoint, bottomRight: AbstractPoint) {
         var min = Math.min(topLeft.y, bottomRight.y);
         var max = Math.max(topLeft.y, bottomRight.y);
         this.y = Utils.random(min, max);
         return this;
     }
-    randomize(topLeft: Point, bottomRight: Point) {
+    randomize(topLeft: AbstractPoint, bottomRight: AbstractPoint) {
         this.randomizeX(topLeft, bottomRight);
         this.randomizeY(topLeft, bottomRight);
         return this;
     }
 }
+
+export class Point extends AbstractPoint {
+    protected _x: number
+    protected _y: number
+
+    constructor(x: number, y: number) {
+        super(Point)
+        this._x = x
+        this._y = y
+    }
+
+    get x(): number {
+        return this._x
+    }
+    set x(x: number) {
+        this._x = x
+    }
+
+    get y(): number {
+        return this._y
+    }
+    set y(y: number) {
+        this._y = y
+    }
+}
+
+export default Point;
